@@ -17,7 +17,7 @@ export const sonicFragmentShader = /* glsl */ `
 uniform vec4 uWaves[${MAX_SONIC_WAVES}];
 uniform float uAges[${MAX_SONIC_WAVES}];
 uniform float uSpeed;
-uniform float uMaxRadius;
+uniform float uMaxRadii[${MAX_SONIC_WAVES}];
 uniform float uThickness;
 uniform float uAfterglow;
 varying vec3 vSonicWorld;
@@ -31,7 +31,7 @@ void main(){
     float d=travelDistance(vSonicWorld,uWaves[i].xyz);
     float since=uAges[i]-d/uSpeed;
     float band=uThickness/uSpeed;
-    if(d>uMaxRadius || since<0.0 || since>=band+uAfterglow)continue;
+    if(d>uMaxRadii[i] || since<0.0 || since>=band+uAfterglow)continue;
     float front=1.0-smoothstep(0.0,band,since);
     float tail=.34*pow(1.0-clamp((since-band)/uAfterglow,0.0,1.0),2.0);
     strength=max(strength,max(front,tail));
@@ -61,6 +61,7 @@ export class SonicVisionRenderer {
     () => new THREE.Vector4(0, 0, 0, -1),
   );
   private readonly ages = new Float32Array(MAX_SONIC_WAVES);
+  private readonly maxRadii = new Float32Array(MAX_SONIC_WAVES);
   constructor(
     source: THREE.Group,
     readonly waves: SonicWaveSystem,
@@ -75,7 +76,7 @@ export class SonicVisionRenderer {
         uWaves: { value: this.waveVectors },
         uAges: { value: this.ages },
         uSpeed: { value: c.speed },
-        uMaxRadius: { value: c.maxRadius },
+        uMaxRadii: { value: this.maxRadii },
         uThickness: { value: c.thickness },
         uAfterglow: { value: c.afterglow },
       },
@@ -129,6 +130,7 @@ export class SonicVisionRenderer {
       if (w?.active) {
         v.set(w.origin.x, w.origin.y, w.origin.z, this.waves.radius(w));
         this.ages[i] = this.waves.time - w.bornAt;
+        this.maxRadii[i] = w.maxRadius;
       } else {
         v.w = -1;
         this.ages[i] = 0;

@@ -1,6 +1,7 @@
 // Loaded only with ?test=1. GPU evidence on a broad two-triangle wall using
 // the exact box geometry owned by the actual Phase 1 building bucket.
 import * as THREE from "three";
+import type { SonicKind } from "../sonic/kinds";
 import { SonicWaveSystem } from "../sonic/waves";
 import { SonicVisionRenderer } from "../sonic/vision";
 export function createSonicProbe(
@@ -35,10 +36,13 @@ export function createSonicProbe(
   const target = new THREE.WebGLRenderTarget(128, 96, { depthBuffer: true });
   const pixels = new Uint8Array(128 * 96 * 4);
   return {
-    sample(age: number) {
+    sample(age: number, soundKind: SonicKind = "TEST") {
       waves.clear();
       waves.emit(
-        kind === "wall" ? { x: 0, y: 5, z: 2 } : { x: 0, y: 1.5, z: 0 },
+        kind === "wall"
+          ? { x: 0, y: 5, z: 2 }
+          : { x: 0, y: soundKind === "TEST" ? 1.5 : 0.08, z: 0 },
+        { kind: soundKind },
       );
       waves.update(age);
       vision.update();
@@ -59,6 +63,7 @@ export function createSonicProbe(
         lit,
         centre: at(64, 48),
         corner: at(112, 75),
+        sixMetres: at(96, 48),
         total: 128 * 96,
         sharedGeometry: vision.proxies[0].geometry === source.geometry,
       };

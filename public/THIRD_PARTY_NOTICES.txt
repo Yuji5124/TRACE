@@ -1,4 +1,4 @@
-TRACE Phase 1 — third-party notices
+TRACE — third-party notices
 Reviewed 2026-10-21. Runtime dependencies are pinned in package-lock.json.
 
 USED AT RUNTIME
@@ -46,3 +46,9 @@ DEVELOPMENT ONLY
 Vite (MIT), TypeScript (Apache-2.0), tsx (MIT), @types/three (MIT),
 @types/node (MIT), Playwright (Apache-2.0) are development tools, not app assets.
 Their license texts remain in their npm distributions and the dependency lockfile.
+
+PHASE 2C SOUND ACTION
+Footstep, running, landing and gunshot sounds are original procedural Web Audio
+noise/oscillator synthesis in src/sound/synthesis.ts. No external recordings or
+sound libraries are used. The weapon/muzzle geometry is authored in this repo.
+No new runtime dependencies were introduced. Existing dependency notices apply.

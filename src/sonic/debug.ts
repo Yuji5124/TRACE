@@ -46,7 +46,7 @@ export class SonicVisionDebug {
     let s = `\nSONIC ${this.waves.count}/${this.waves.config.maxWaves} · emitted ${this.waves.emitted}`;
     for (const w of this.waves.slots)
       if (w.active)
-        s += `\n#${w.serial} r=${this.waves.radius(w).toFixed(1)}m age=${(this.waves.time - w.bornAt).toFixed(2)}s origin=${w.origin.x.toFixed(1)},${w.origin.y.toFixed(1)},${w.origin.z.toFixed(1)}`;
+        s += `\n#${w.serial} ${w.kind} limit=${w.maxRadius}m r=${this.waves.radius(w).toFixed(1)}m age=${(this.waves.time - w.bornAt).toFixed(2)}s origin=${w.origin.x.toFixed(1)},${w.origin.y.toFixed(1)},${w.origin.z.toFixed(1)}`;
     return s;
   }
   dispose() {

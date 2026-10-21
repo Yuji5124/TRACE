@@ -10,16 +10,23 @@ export function createInput(
     drag: number | null = null,
     lx = 0,
     ly = 0;
+  let touchRunning = false;
   let touchX = 0,
     touchY = 0;
-  const pointers = new Map<number, { x: number; y: number }>();
+  const pointers = new Map<number, { x: number; y: number; moving: boolean }>();
   const clear = () => {
     keys.clear();
     touchX = touchY = 0;
+    touchRunning = false;
     pointers.clear();
     drag = null;
   };
   addEventListener("keydown", (e) => {
+    if (
+      e.target instanceof HTMLElement &&
+      e.target.matches("input,textarea,select,[contenteditable=true]")
+    )
+      return;
     if (!e.repeat) keys.add(e.code);
     if (
       ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(
@@ -48,21 +55,26 @@ export function createInput(
   });
   canvas.addEventListener("pointerdown", (e) => {
     if (e.pointerType === "touch") {
-      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      pointers.set(e.pointerId, {
+        x: e.clientX,
+        y: e.clientY,
+        moving: e.clientX < innerWidth * 0.45,
+      });
       canvas.setPointerCapture(e.pointerId);
       return;
     }
     drag = e.pointerId;
     lx = e.clientX;
     ly = e.clientY;
-    canvas.setPointerCapture(e.pointerId);
-    if (!document.pointerLockElement)
+    if (!document.pointerLockElement) {
+      canvas.setPointerCapture(e.pointerId);
       canvas.requestPointerLock?.()?.catch(() => {});
+    }
   });
   canvas.addEventListener("pointermove", (e) => {
     const start = pointers.get(e.pointerId);
     if (start) {
-      if (start.x < innerWidth * 0.45) {
+      if (start.moving) {
         touchX = Math.max(-1, Math.min(1, (e.clientX - start.x) / 55));
         touchY = Math.max(-1, Math.min(1, (e.clientY - start.y) / 55));
       } else {
@@ -85,7 +97,7 @@ export function createInput(
   ] as const)
     canvas.addEventListener(event, (e) => {
       const p = pointers.get(e.pointerId);
-      if (p && p.x < innerWidth * 0.45) touchX = touchY = 0;
+      if (p?.moving) touchX = touchY = 0;
       pointers.delete(e.pointerId);
       if (drag === e.pointerId) drag = null;
     });
@@ -104,11 +116,20 @@ export function createInput(
       const length = Math.max(1, Math.hypot(x, z));
       x /= length;
       z /= length;
-      const speed = keys.has("ShiftLeft") || keys.has("ShiftRight") ? 6.2 : 3.6;
+      const running =
+        touchRunning || keys.has("ShiftLeft") || keys.has("ShiftRight");
+      const speed = running ? 6.2 : 3.6;
       return {
+        running,
         x: (x * Math.cos(yaw) + z * Math.sin(yaw)) * speed * dt,
         z: (-x * Math.sin(yaw) + z * Math.cos(yaw)) * speed * dt,
       };
+    },
+    setRun(running: boolean) {
+      touchRunning = running;
+    },
+    get running() {
+      return touchRunning || keys.has("ShiftLeft") || keys.has("ShiftRight");
     },
     setLook(y: number, p: number) {
       yaw = y;

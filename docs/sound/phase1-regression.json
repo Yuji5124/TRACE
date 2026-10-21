@@ -1,0 +1,49 @@
+{
+  "browser": "153.0.8010.0",
+  "errors": [],
+  "modes": [
+    {
+      "mode": 1,
+      "visible": true,
+      "position": {
+        "x": 0.021030472591519356,
+        "y": 0.8100008368492126,
+        "z": 3.615039348602295
+      },
+      "colliders": 360,
+      "ground": 1.5950000286102295
+    },
+    {
+      "mode": 2,
+      "visible": false,
+      "position": {
+        "x": 0.021030472591519356,
+        "y": 0.8100008368492126,
+        "z": 3.615039348602295
+      },
+      "colliders": 360,
+      "ground": 1.5950000286102295
+    },
+    {
+      "mode": 3,
+      "visible": true,
+      "position": {
+        "x": 0.021030472591519356,
+        "y": 0.8100008368492126,
+        "z": 3.615039348602295
+      },
+      "colliders": 360,
+      "ground": 1.5950000286102295
+    }
+  ],
+  "metrics": {
+    "fps": 1,
+    "frameMs": 5.8,
+    "maxFrameMs": 5.8,
+    "calls": 152,
+    "triangles": 159038,
+    "geometries": 11,
+    "textures": 8
+  },
+  "notes": "Headless SwiftShader software rendering; FPS is not representative of device GPU performance."
+}

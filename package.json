@@ -9,7 +9,8 @@
     "preview": "vite preview --host 0.0.0.0",
     "test": "node --import tsx --test tests/*.test.ts",
     "test:browser": "node tests/playtest.mjs",
-    "test:sonic": "node tests/sonic-browser.mjs"
+    "test:sonic": "node tests/sonic-browser.mjs",
+    "test:sound": "node tests/sound-browser.mjs"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "0.19.3",

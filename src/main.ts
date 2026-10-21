@@ -10,10 +10,13 @@ import { SonicWaveSystem } from "./sonic/waves";
 import { SonicVisionRenderer } from "./sonic/vision";
 import { SonicVisionDebug } from "./sonic/debug";
 import { createGpuTimer } from "./diagnostics/gpu";
+import { SoundActionSystem } from "./sound/actions";
+import { SoundAudio } from "./sound/audio";
+import { SoundWeapon } from "./sound/weapon";
 import "./style.css";
 
 const app = document.querySelector<HTMLDivElement>("#app")!;
-app.innerHTML = `<div id="hud"><div class="top"><div class="brand">TRACE<small>THE WORLD, BEFORE THE ECHO.</small></div><div class="location">FIELD 01 / <span id="seed"></span><strong>MIDORI COMMONS</strong>公園と街のあいだ</div></div><div class="bottom"><div><div class="badge" id="mode-label">01 / VISIBLE WORLD</div><nav class="modes" aria-label="表示モード"><button data-mode="1" aria-pressed="true">F1 通常</button><button data-mode="2" aria-pressed="false">F2 透明</button><button data-mode="3" aria-pressed="false">F3 DEBUG</button></nav></div><div><div class="tools"><button id="pulse">Q 音波</button><button id="perf">計測 P</button><button id="reset">入口へ R</button><button id="credit">出典</button></div><div class="hint pc-hint">WASD 移動 · マウス 視点 · SHIFT 走る · Q 音波 · ESC 解除</div><div class="hint touch-hint">左側ドラッグで移動 · 右側ドラッグで視点</div><div id="status"></div></div></div></div><div class="crosshair"></div><div id="start"><span class="eyebrow">TRACE / SONIC VISION</span><h1>街の音が、消える前に。</h1><p>木漏れ日の公園と、静かな街を歩く。<br>F2で、見えない世界へ。</p><button id="enter" disabled>ワールドを準備中…</button><p>PC：WASD＋マウス ／ タッチ：左右ドラッグ<br>Qキー／音波ボタンで、音が世界を描く</p></div><div id="stats"></div><aside id="credits">Original procedural world — TRACE Phase 1<a href="./THIRD_PARTY_NOTICES.txt" target="_blank" rel="noopener">ライセンス全文・使用ライブラリ</a><a href="https://github.com/IceCreamYou/THREE.Terrain" target="_blank" rel="noopener">THREE.Terrain — 調査参考</a><a href="https://github.com/photonlines/Procedural-City-Generator" target="_blank" rel="noopener">Procedural City Generator — 街区構成参考</a><a href="https://github.com/gkjohnson/three-mesh-bvh" target="_blank" rel="noopener">three-mesh-bvh — 地形クエリ</a><button id="close-credit">閉じる</button></aside>`;
+app.innerHTML = `<div id="hud"><div class="top"><div class="brand">TRACE<small>THE WORLD, BEFORE THE ECHO.</small></div><div class="location">FIELD 01 / <span id="seed"></span><strong>MIDORI COMMONS</strong>公園と街のあいだ</div></div><div class="bottom"><div><div class="badge" id="mode-label">01 / VISIBLE WORLD</div><nav class="modes" aria-label="表示モード"><button data-mode="1" aria-pressed="true">F1 通常</button><button data-mode="2" aria-pressed="false">F2 透明</button><button data-mode="3" aria-pressed="false">F3 DEBUG</button></nav></div><div><div class="tools"><button id="sound-settings">音量</button><button id="pulse">Q 音波</button><button id="perf">計測 P</button><button id="reset">入口へ R</button><button id="credit">出典</button></div><div class="hint pc-hint">WASD 移動 · マウス 視点 · SHIFT 走る · クリック 射撃 · Q 音波 · M 消音 · ESC 解除</div><div class="hint touch-hint">左側ドラッグで移動 · 右側ドラッグで視点</div><div id="status"></div></div></div></div><div class="crosshair"></div><div id="start"><span class="eyebrow">TRACE / SONIC VISION</span><h1>街の音が、消える前に。</h1><p>木漏れ日の公園と、静かな街を歩く。<br>F2で、見えない世界へ。</p><button id="enter" disabled>ワールドを準備中…</button><p>PC：WASD＋マウス ／ タッチ：左右ドラッグ<br>足音・射撃で、音が世界を描く</p></div><div id="stats"></div><div class="action-controls"><button id="run-toggle" aria-pressed="false">RUN</button><button id="fire" aria-label="射撃">FIRE</button></div><aside id="sound-panel" hidden><label for="volume">音量</label><input id="volume" type="range" min="0" max="100" value="40"/><button id="mute" aria-pressed="false">消音 M</button><p id="audio-status">音声待機中</p><button id="sound-close">閉じる</button></aside><aside id="credits">Original procedural world — TRACE Phase 1<a href="./THIRD_PARTY_NOTICES.txt" target="_blank" rel="noopener">ライセンス全文・使用ライブラリ</a><a href="https://github.com/IceCreamYou/THREE.Terrain" target="_blank" rel="noopener">THREE.Terrain — 調査参考</a><a href="https://github.com/photonlines/Procedural-City-Generator" target="_blank" rel="noopener">Procedural City Generator — 街区構成参考</a><a href="https://github.com/gkjohnson/three-mesh-bvh" target="_blank" rel="noopener">three-mesh-bvh — 地形クエリ</a><button id="close-credit">閉じる</button></aside>`;
 
 async function boot() {
   const params = new URLSearchParams(location.search),
@@ -75,6 +78,10 @@ async function boot() {
   scene.add(sonicVision.group, sonicDebug.group);
   let gpu = createGpuTimer(renderer);
   const physics = await createPhysics(definition, view.groundGeometry);
+  const audio = new SoundAudio();
+  const actions = new SoundActionSystem(waves, audio);
+  scene.add(camera);
+  const weapon = new SoundWeapon(camera, actions);
   let active = false,
     mode = 1,
     showStats = false,
@@ -83,11 +90,14 @@ async function boot() {
     enter = document.querySelector<HTMLButtonElement>("#enter")!;
   const input = createInput(renderer.domElement, camera, () => {
     active = false;
+    audio.silence();
+    actions.footsteps.reset();
     start.style.display = "block";
   });
   enter.disabled = false;
   enter.textContent = "公園を歩く";
   enter.onclick = () => {
+    void audio.unlock();
     active = true;
     start.style.display = "none";
     if (matchMedia("(pointer:fine)").matches)
@@ -97,6 +107,8 @@ async function boot() {
     if (!document.pointerLockElement && matchMedia("(pointer:fine)").matches) {
       input.clear();
       active = false;
+      audio.silence();
+      actions.footsteps.reset();
       start.style.display = "block";
     }
   });
@@ -162,6 +174,9 @@ async function boot() {
   document.querySelector("#reset")!.addEventListener("click", () => {
     physics.reset();
     waves.clear();
+    actions.reset();
+    weapon.reset();
+    audio.silence();
     input.clear();
     input.setLook(0, -0.04);
   });
@@ -175,10 +190,46 @@ async function boot() {
   const emitPulse = () => {
     if (!active) return;
     const p = physics.body.translation();
-    waves.emit({ x: p.x, y: p.y + 0.65, z: p.z });
+    actions.emit("TEST", { x: p.x, y: p.y + 0.65, z: p.z });
   };
   document.querySelector("#pulse")!.addEventListener("click", emitPulse);
+  const fire = () => {
+    if (!active) return false;
+    void audio.unlock();
+    const p = physics.body.translation();
+    camera.position.set(p.x, p.y + 0.85, p.z);
+    input.update(0);
+    return weapon.shoot();
+  };
+  renderer.domElement.addEventListener("pointerdown", (e) => {
+    if (e.pointerType !== "touch" && e.button === 0) fire();
+  });
+  document.querySelector("#fire")!.addEventListener("click", fire);
+  document
+    .querySelector("#run-toggle")!
+    .addEventListener("click", () => input.setRun(!input.running));
+  const soundPanel = document.querySelector<HTMLElement>("#sound-panel")!;
+  document.querySelector("#sound-settings")!.addEventListener("click", () => {
+    void audio.unlock();
+    soundPanel.hidden = !soundPanel.hidden;
+  });
+  document.querySelector("#sound-close")!.addEventListener("click", () => {
+    soundPanel.hidden = true;
+  });
+  document
+    .querySelector<HTMLInputElement>("#volume")!
+    .addEventListener("input", (e) =>
+      audio.setVolume((e.target as HTMLInputElement).valueAsNumber / 100),
+    );
+  const mute = () => audio.setMuted(!audio.muted);
+  document.querySelector("#mute")!.addEventListener("click", mute);
   addEventListener("keydown", (e) => {
+    if (
+      e.target instanceof HTMLElement &&
+      e.target.matches("input,textarea,select,[contenteditable=true]")
+    )
+      return;
+    if (e.code === "KeyM" && !e.repeat) mute();
     if (
       e.code === "KeyQ" &&
       !e.repeat &&
@@ -197,11 +248,16 @@ async function boot() {
     if (e.code === "KeyR") {
       physics.reset();
       waves.clear();
+      actions.reset();
+      weapon.reset();
+      audio.silence();
       input.clear();
       input.setLook(0, -0.04);
     }
     if (e.code === "Escape") {
       active = false;
+      audio.silence();
+      actions.footsteps.reset();
       input.clear();
       start.style.display = "block";
     }
@@ -217,6 +273,8 @@ async function boot() {
     contextLost = true;
     gpu.dispose();
     active = false;
+    audio.silence();
+    actions.footsteps.reset();
     input.clear();
     start.style.display = "block";
     enter.textContent = "描画を復旧中…";
@@ -277,10 +335,19 @@ async function boot() {
     }
     const begin = performance.now();
     if (active) {
+      waves.update(rawDt);
       accumulator = Math.min(accumulator + dt, 0.1);
       while (accumulator >= STEP) {
         const delta = input.update(STEP);
-        physics.move(delta.x, delta.z, STEP);
+        const before = physics.body.translation();
+        const after = physics.move(delta.x, delta.z, STEP);
+        actions.footsteps.update({
+          before,
+          after,
+          dt: STEP,
+          grounded: physics.controller.computedGrounded(),
+          running: delta.running,
+        });
         accumulator -= STEP;
       }
     } else {
@@ -290,24 +357,42 @@ async function boot() {
     const p = physics.body.translation();
     camera.position.set(p.x, p.y + 0.85, p.z);
     updateCollisionDebug();
-    if (active) waves.update(rawDt);
+    weapon.update();
     sonicVision.update();
     sonicDebug.update();
     gpu.begin();
     renderer.render(scene, camera);
     gpu.end();
     elapsed += dt;
+    document
+      .querySelector("#run-toggle")!
+      .setAttribute("aria-pressed", String(input.running));
+    document
+      .querySelector("#mute")!
+      .setAttribute("aria-pressed", String(audio.muted));
+    document.querySelector("#mute")!.textContent = audio.muted
+      ? "音声を入れる M"
+      : "消音 M";
+    document.querySelector("#audio-status")!.textContent = audio.muted
+      ? "消音中"
+      : audio.state === "running"
+        ? "音声 ON"
+        : audio.state === "unavailable"
+          ? "音声 OFF（可視化は継続）"
+          : "音声待機中";
     const measured = perf.sample(rawDt, performance.now() - begin);
     stats.style.display = showStats || mode === 3 ? "block" : "none";
-    stats.textContent = `TRACE / FRAME PROBE\n${measured.fps} FPS · CPU ${measured.frameMs} ms\nmax CPU ${measured.maxFrameMs} ms\n${measured.calls} draw calls · ${measured.triangles.toLocaleString()} triangles\n${measured.geometries} geometries · ${measured.textures} textures\nGPU ${gpu.milliseconds === null ? "unavailable" : gpu.milliseconds.toFixed(2) + " ms"} · memory unknown\nposition ${p.x.toFixed(1)}, ${p.y.toFixed(1)}, ${p.z.toFixed(1)}\n${definition.objects.length} objects · ${physics.world.colliders.len()} colliders\nseed ${seed} · mode ${mode}${sonicDebug.text()}`;
+    stats.textContent = `TRACE / FRAME PROBE\n${measured.fps} FPS · CPU ${measured.frameMs} ms\nmax CPU ${measured.maxFrameMs} ms\n${measured.calls} draw calls · ${measured.triangles.toLocaleString()} triangles\n${measured.geometries} geometries · ${measured.textures} textures\nGPU ${gpu.milliseconds === null ? "unavailable" : gpu.milliseconds.toFixed(2) + " ms"} · memory unknown\nposition ${p.x.toFixed(1)}, ${p.y.toFixed(1)}, ${p.z.toFixed(1)}\n${definition.objects.length} objects · ${physics.world.colliders.len()} colliders\nseed ${seed} · mode ${mode}${sonicDebug.text()}\nAudio ${audio.state} · ${audio.muted ? "muted" : Math.round(audio.volume * 100) + "%"} · voices ${audio.status.voices}`;
     document.querySelector("#status")!.textContent =
       `${p.x.toFixed(0)} / ${p.z.toFixed(0)} m · ${measured.fps} FPS · ${waves.count} waves`;
   };
   // Explicit QA hook only when requested. Exposes simulation, never binds modes to physics.
   if (params.has("test")) {
     const { createSonicProbe } = await import("./diagnostics/sonic-probe");
+    const { renderSoundProbe } = await import("./diagnostics/sound-probe");
     Object.assign(window, {
       traceTest: {
+        renderSoundProbe,
         createSonicProbe: (kind?: "wall" | "ground") =>
           createSonicProbe(renderer, view.group, kind),
         definition,
@@ -318,16 +403,37 @@ async function boot() {
         renderer,
         scene,
         waves,
+        actions,
+        audio,
+        weapon,
+        fire,
         sonicVision,
         sonicDebug,
         get gpu() {
           return { supported: gpu.supported, milliseconds: gpu.milliseconds };
         },
         render() {
+          weapon.update();
           sonicVision.update();
           sonicDebug.update();
           updateCollisionDebug();
           renderer.render(scene, camera);
+        },
+        motionTick(dt: number = 1 / 60) {
+          waves.update(dt);
+          const delta = input.update(dt);
+          const before = physics.body.translation();
+          const after = physics.move(delta.x, delta.z, dt);
+          actions.footsteps.update({
+            before,
+            after,
+            dt,
+            grounded: physics.controller.computedGrounded(),
+            running: delta.running,
+          });
+          camera.position.set(after.x, after.y + 0.85, after.z);
+          weapon.update();
+          return after;
         },
         setMode,
         freeze: (value: boolean) => {
@@ -339,6 +445,8 @@ async function boot() {
         },
         stop: () => {
           active = false;
+          audio.silence();
+          actions.footsteps.reset();
           input.clear();
         },
         get mode() {
