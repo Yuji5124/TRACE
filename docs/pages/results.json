@@ -1,0 +1,151 @@
+{
+  "proxyCertificateWorkaround": true,
+  "url": "https://yuji5124.github.io/TRACE/",
+  "browser": "153.0.8010.0",
+  "publicBoot": {
+    "status": 200,
+    "wasmInstantiations": 1,
+    "title": "TRACE — Midori Commons"
+  },
+  "motion": {
+    "position": {
+      "x": 0.00009103679622057825,
+      "y": 0.8101000189781189,
+      "z": 24.600088119506836
+    },
+    "footfalls": 4
+  },
+  "modes": [
+    {
+      "mode": 1,
+      "worldVisible": true,
+      "colliders": 360,
+      "position": {
+        "x": 0.00009103679622057825,
+        "y": 0.8101000189781189,
+        "z": 24.600088119506836
+      }
+    },
+    {
+      "mode": 2,
+      "worldVisible": false,
+      "colliders": 360,
+      "position": {
+        "x": 0.00009103679622057825,
+        "y": 0.8101000189781189,
+        "z": 24.600088119506836
+      }
+    },
+    {
+      "mode": 3,
+      "worldVisible": true,
+      "colliders": 360,
+      "position": {
+        "x": 0.00009103679622057825,
+        "y": 0.8101000189781189,
+        "z": 24.600088119506836
+      }
+    }
+  ],
+  "gun": {
+    "shots": 1,
+    "flash": true,
+    "kinds": [
+      "FOOTSTEP",
+      "FOOTSTEP",
+      "FOOTSTEP",
+      "FOOTSTEP",
+      "TEST",
+      "GUNSHOT"
+    ],
+    "audio": "running"
+  },
+  "runtime": {
+    "seed": 104729,
+    "colliders": 360,
+    "wasmInstantiations": 1,
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "webgl2": true
+  },
+  "resources": [
+    {
+      "url": "https://yuji5124.github.io/TRACE/",
+      "status": 200,
+      "type": "document"
+    },
+    {
+      "url": "https://yuji5124.github.io/TRACE/assets/index-tBROU6AP.css",
+      "status": 200,
+      "type": "stylesheet"
+    },
+    {
+      "url": "https://yuji5124.github.io/TRACE/assets/bvh-F2ZutcFU.js",
+      "status": 200,
+      "type": "script"
+    },
+    {
+      "url": "https://yuji5124.github.io/TRACE/assets/index-D52kPGIR.js",
+      "status": 200,
+      "type": "script"
+    },
+    {
+      "url": "https://yuji5124.github.io/TRACE/assets/three-3M7RIJB7.js",
+      "status": 200,
+      "type": "script"
+    },
+    {
+      "url": "https://yuji5124.github.io/TRACE/assets/physics-CKC5f6tm.js",
+      "status": 200,
+      "type": "script"
+    },
+    {
+      "url": "https://yuji5124.github.io/TRACE/?test=1",
+      "status": 200,
+      "type": "document"
+    },
+    {
+      "url": "https://yuji5124.github.io/TRACE/assets/index-D52kPGIR.js",
+      "status": 200,
+      "type": "script"
+    },
+    {
+      "url": "https://yuji5124.github.io/TRACE/assets/three-3M7RIJB7.js",
+      "status": 200,
+      "type": "script"
+    },
+    {
+      "url": "https://yuji5124.github.io/TRACE/assets/bvh-F2ZutcFU.js",
+      "status": 200,
+      "type": "script"
+    },
+    {
+      "url": "https://yuji5124.github.io/TRACE/assets/physics-CKC5f6tm.js",
+      "status": 200,
+      "type": "script"
+    },
+    {
+      "url": "https://yuji5124.github.io/TRACE/assets/index-tBROU6AP.css",
+      "status": 200,
+      "type": "stylesheet"
+    },
+    {
+      "url": "https://yuji5124.github.io/TRACE/assets/sonic-probe-BXpwZ7Jg.js",
+      "status": 200,
+      "type": "script"
+    },
+    {
+      "url": "https://yuji5124.github.io/TRACE/assets/sound-probe-CA1wUmp1.js",
+      "status": 200,
+      "type": "script"
+    }
+  ],
+  "errors": [],
+  "failures": [],
+  "warnings": [
+    "using deprecated parameters for the initialization function; pass a single object instead",
+    "THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.",
+    "using deprecated parameters for the initialization function; pass a single object instead",
+    "THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead."
+  ],
+  "notes": "Linux headless Chromium with forced ANGLE SwiftShader software rendering. Not Windows Chrome or iPhone/iPad Safari hardware acceptance. WASM is embedded in Rapier compat JS; no standalone .wasm request is expected."
+}

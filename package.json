@@ -10,7 +10,8 @@
     "test": "node --import tsx --test tests/*.test.ts",
     "test:browser": "node tests/playtest.mjs",
     "test:sonic": "node tests/sonic-browser.mjs",
-    "test:sound": "node tests/sound-browser.mjs"
+    "test:sound": "node tests/sound-browser.mjs",
+    "test:pages": "node tests/pages-browser.mjs"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "0.19.3",
