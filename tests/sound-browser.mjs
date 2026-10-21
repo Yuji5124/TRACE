@@ -12,11 +12,14 @@ const args = [
   "--use-angle=swiftshader",
   "--enable-unsafe-swiftshader",
 ];
-const browser = await chromium.launch({
-  headless: true,
-  executablePath: process.env.CHROMIUM_EXECUTABLE || undefined,
-  args,
-});
+const launch = () =>
+  chromium.launch({
+    headless: true,
+    executablePath: process.env.CHROMIUM_EXECUTABLE || undefined,
+    args,
+  });
+let browser = await launch();
+const browserVersion = await browser.version();
 const base = process.env.TRACE_URL || "http://127.0.0.1:32803",
   out = process.env.TRACE_SOUND_OUTPUT || "artifacts/sound";
 await mkdir(out, { recursive: true });
@@ -362,7 +365,11 @@ try {
     t.stop();
     return result;
   });
-  // Dedicated touch context: tapping the look area does not fire; FIRE button does.
+  console.log("desktop sound checks passed; starting isolated touch browser");
+  await browser.close();
+  browser = await launch();
+  // Dedicated process: single-process Chromium cannot reliably open a second context.
+  // Tapping the look area does not fire; FIRE button does.
   const mobileContext = await browser.newContext({
     viewport: { width: 390, height: 844 },
     hasTouch: true,
@@ -406,7 +413,11 @@ try {
     running: window.traceTest.input.running,
     audio: window.traceTest.audio.state,
   }));
-  // Keep contexts alive until browser teardown (single-process Chromium compatibility).
+  console.log(
+    "touch sound checks passed; starting isolated audio-failure browser",
+  );
+  await browser.close();
+  browser = await launch();
   const failed = await browser.newPage({
     viewport: { width: 800, height: 520 },
   });
@@ -449,7 +460,7 @@ try {
 
   assert.deepEqual(errors, []);
   const report = {
-    browser: await browser.version(),
+    browser: browserVersion,
     unlocked,
     steps,
     waveform,

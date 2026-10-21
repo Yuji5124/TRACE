@@ -1,0 +1,280 @@
+{
+  "browser": "153.0.8010.0",
+  "unlocked": {
+    "state": "running",
+    "volume": 0.4,
+    "muted": false,
+    "voices": 0,
+    "played": 0,
+    "failures": 0
+  },
+  "steps": {
+    "walk": {
+      "emitted": 4,
+      "position": {
+        "x": 0.00009103679622057825,
+        "y": 0.8101000189781189,
+        "z": 24.600088119506836
+      },
+      "waves": [
+        {
+          "kind": "FOOTSTEP",
+          "radius": 4,
+          "y": 0.08010031700134274
+        },
+        {
+          "kind": "FOOTSTEP",
+          "radius": 4,
+          "y": 0.08009697914123531
+        },
+        {
+          "kind": "FOOTSTEP",
+          "radius": 4,
+          "y": 0.07999994277954098
+        },
+        {
+          "kind": "FOOTSTEP",
+          "radius": 4,
+          "y": 0.08012034416198727
+        }
+      ]
+    },
+    "run": {
+      "emitted": 7,
+      "position": {
+        "x": 0.0004670273046940565,
+        "y": 0.810385525226593,
+        "z": 20.700714111328125
+      },
+      "waves": [
+        {
+          "kind": "RUN",
+          "radius": 8,
+          "y": 0.07999755859374996
+        },
+        {
+          "kind": "RUN",
+          "radius": 8,
+          "y": 0.08010037660598751
+        },
+        {
+          "kind": "RUN",
+          "radius": 8,
+          "y": 0.08010007858276363
+        },
+        {
+          "kind": "RUN",
+          "radius": 8,
+          "y": 0.08015169620513912
+        },
+        {
+          "kind": "RUN",
+          "radius": 8,
+          "y": 0.08009769439697262
+        },
+        {
+          "kind": "RUN",
+          "radius": 8,
+          "y": 0.08013828516006466
+        },
+        {
+          "kind": "RUN",
+          "radius": 8,
+          "y": 0.08000155210494991
+        }
+      ]
+    },
+    "idleExtra": 0,
+    "blockedExtra": 0,
+    "landings": 1
+  },
+  "waveform": [
+    {
+      "kind": "FOOTSTEP",
+      "peak": 0.05107857659459114,
+      "rms": 0.004437048610638289,
+      "lateEnergy": 0,
+      "samples": 22050,
+      "sampleRate": 44100
+    },
+    {
+      "kind": "RUN",
+      "peak": 0.0817384272813797,
+      "rms": 0.006564937202176843,
+      "lateEnergy": 0,
+      "samples": 22050,
+      "sampleRate": 44100
+    },
+    {
+      "kind": "LANDING",
+      "peak": 0.12102361023426056,
+      "rms": 0.013394412642717447,
+      "lateEnergy": 0,
+      "samples": 22050,
+      "sampleRate": 44100
+    },
+    {
+      "kind": "GUNSHOT",
+      "peak": 0.2666112780570984,
+      "rms": 0.021479126660999645,
+      "lateEnergy": 0,
+      "samples": 22050,
+      "sampleRate": 44100
+    }
+  ],
+  "ground": [
+    {
+      "kind": "FOOTSTEP",
+      "age": 0.4,
+      "lit": 1832,
+      "centre": 73,
+      "corner": 0,
+      "sixMetres": 0,
+      "total": 12288,
+      "sharedGeometry": true
+    },
+    {
+      "kind": "RUN",
+      "age": 0.4,
+      "lit": 6976,
+      "centre": 73,
+      "corner": 0,
+      "sixMetres": 133,
+      "total": 12288,
+      "sharedGeometry": true
+    },
+    {
+      "kind": "GUNSHOT",
+      "age": 0.4,
+      "lit": 9328,
+      "centre": 73,
+      "corner": 705,
+      "sixMetres": 133,
+      "total": 12288,
+      "sharedGeometry": true
+    }
+  ],
+  "gun": {
+    "shots": 1,
+    "flash": true,
+    "waves": [
+      {
+        "kind": "GUNSHOT",
+        "radius": 35,
+        "bornAt": 20.88173333333287
+      }
+    ],
+    "audio": {
+      "state": "running",
+      "volume": 0.4,
+      "muted": false,
+      "voices": 1,
+      "played": 24,
+      "failures": 0
+    }
+  },
+  "mix": [
+    "GUNSHOT",
+    "TEST",
+    "FOOTSTEP",
+    "RUN"
+  ],
+  "comparisons": [
+    {
+      "kind": "FOOTSTEP",
+      "count": 1,
+      "calls": 88,
+      "triangles": 121956
+    },
+    {
+      "kind": "RUN",
+      "count": 1,
+      "calls": 88,
+      "triangles": 121956
+    },
+    {
+      "kind": "GUNSHOT",
+      "count": 1,
+      "calls": 73,
+      "triangles": 120380
+    }
+  ],
+  "modeParity": [
+    {
+      "mode": 1,
+      "position": {
+        "x": 0.021030472591519356,
+        "y": 0.8100008368492126,
+        "z": 3.615039348602295
+      },
+      "colliders": 360
+    },
+    {
+      "mode": 2,
+      "position": {
+        "x": 0.021030472591519356,
+        "y": 0.8100008368492126,
+        "z": 3.615039348602295
+      },
+      "colliders": 360
+    },
+    {
+      "mode": 3,
+      "position": {
+        "x": 0.021030472591519356,
+        "y": 0.8100008368492126,
+        "z": 3.615039348602295
+      },
+      "colliders": 360
+    }
+  ],
+  "stress": {
+    "count": 8,
+    "serials": [
+      194,
+      187,
+      188,
+      189,
+      190,
+      191,
+      192,
+      193
+    ],
+    "emitted": 194,
+    "voices": 16
+  },
+  "softwarePerformance": {
+    "metrics": {
+      "fps": 1,
+      "frameMs": 3.5,
+      "maxFrameMs": 3.5,
+      "calls": 75,
+      "triangles": 120394,
+      "geometries": 13,
+      "textures": 8
+    },
+    "gpu": {
+      "supported": true,
+      "milliseconds": 266.589345
+    }
+  },
+  "mobileState": {
+    "shots": 1,
+    "running": true,
+    "audio": "running"
+  },
+  "audioFailure": {
+    "state": "unavailable",
+    "count": 1,
+    "visible": true,
+    "kinds": [
+      "GUNSHOT"
+    ]
+  },
+  "errors": [],
+  "physicalGpuDevices": {
+    "tested": false,
+    "devices": [],
+    "note": "Windows/iPhone/iPad hardware FPS, Safari playback policy and audible speaker output were not tested. Touch test is Chromium emulation."
+  }
+}
