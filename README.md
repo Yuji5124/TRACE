@@ -1,5 +1,7 @@
 # TRACE
 
+**[テストプレイを開く](https://yuji5124.github.io/TRACE/)** — [公開構成・検証](docs/PAGES.md)
+
 150m × 150m の公園・周辺市街地を探索する、Three.js / TypeScript / Vite の背景ワールド。
 
 ## 起動
