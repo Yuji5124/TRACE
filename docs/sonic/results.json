@@ -1,0 +1,232 @@
+{
+  "browser": "153.0.8010.0",
+  "contract": {
+    "sourceCount": 96,
+    "proxyCount": 96,
+    "geometries": true,
+    "transforms": true,
+    "materials": 1,
+    "kinds": [
+      [
+        "building",
+        true
+      ],
+      [
+        "tree-trunk",
+        true
+      ],
+      [
+        "tree-crown",
+        true
+      ],
+      [
+        "sculpted-ground",
+        true
+      ],
+      [
+        "play-stair",
+        true
+      ],
+      [
+        "terrace-step",
+        true
+      ],
+      [
+        "slide",
+        true
+      ]
+    ]
+  },
+  "gpuSamples": [
+    {
+      "age": 0.03,
+      "lit": 0,
+      "centre": 0,
+      "corner": 0,
+      "total": 12288,
+      "sharedGeometry": true
+    },
+    {
+      "age": 0.12,
+      "lit": 688,
+      "centre": 167,
+      "corner": 0,
+      "total": 12288,
+      "sharedGeometry": true
+    },
+    {
+      "age": 0.45,
+      "lit": 7208,
+      "centre": 75,
+      "corner": 145,
+      "total": 12288,
+      "sharedGeometry": true
+    },
+    {
+      "age": 1,
+      "lit": 6408,
+      "centre": 8,
+      "corner": 33,
+      "total": 12288,
+      "sharedGeometry": true
+    },
+    {
+      "age": 2.7,
+      "lit": 0,
+      "centre": 0,
+      "corner": 0,
+      "total": 12288,
+      "sharedGeometry": true
+    }
+  ],
+  "modes": [
+    {
+      "mode": 1,
+      "position": {
+        "x": 0.021030472591519356,
+        "y": 0.8100008368492126,
+        "z": 3.615039348602295
+      },
+      "colliders": 360
+    },
+    {
+      "mode": 2,
+      "position": {
+        "x": 0.021030472591519356,
+        "y": 0.8100008368492126,
+        "z": 3.615039348602295
+      },
+      "colliders": 360
+    },
+    {
+      "mode": 3,
+      "position": {
+        "x": 0.021030472591519356,
+        "y": 0.8100008368492126,
+        "z": 3.615039348602295
+      },
+      "colliders": 360
+    }
+  ],
+  "frames": [
+    {
+      "age": 0,
+      "count": 1,
+      "calls": 39,
+      "triangles": 71906,
+      "geometries": 7,
+      "textures": 8
+    },
+    {
+      "age": 0.18,
+      "count": 1,
+      "calls": 39,
+      "triangles": 71906,
+      "geometries": 7,
+      "textures": 8
+    },
+    {
+      "age": 0.28,
+      "count": 1,
+      "calls": 39,
+      "triangles": 71906,
+      "geometries": 7,
+      "textures": 8
+    },
+    {
+      "age": 0.42,
+      "count": 1,
+      "calls": 39,
+      "triangles": 71906,
+      "geometries": 7,
+      "textures": 8
+    },
+    {
+      "age": 0.75,
+      "count": 1,
+      "calls": 39,
+      "triangles": 71906,
+      "geometries": 7,
+      "textures": 8
+    },
+    {
+      "age": 1.3,
+      "count": 1,
+      "calls": 39,
+      "triangles": 71906,
+      "geometries": 7,
+      "textures": 8
+    },
+    {
+      "age": 2.7,
+      "count": 0,
+      "calls": 0,
+      "triangles": 0,
+      "geometries": 7,
+      "textures": 8
+    }
+  ],
+  "comparison": [
+    {
+      "mode": 1,
+      "age": 0.42,
+      "count": 1,
+      "calls": 140,
+      "triangles": 180890,
+      "geometries": 7,
+      "textures": 8
+    },
+    {
+      "mode": 2,
+      "age": 0.42,
+      "count": 1,
+      "calls": 39,
+      "triangles": 71906,
+      "geometries": 7,
+      "textures": 8
+    },
+    {
+      "mode": 3,
+      "age": 0.42,
+      "count": 1,
+      "calls": 150,
+      "triangles": 180890,
+      "geometries": 10,
+      "textures": 8
+    }
+  ],
+  "eightWaves": {
+    "age": 0.4,
+    "count": 8,
+    "calls": 39,
+    "triangles": 71906,
+    "geometries": 10,
+    "textures": 8
+  },
+  "resources": {
+    "before": {
+      "materials": 1,
+      "geometries": 10
+    },
+    "count": 8,
+    "materials": 1,
+    "geometries": 10
+  },
+  "performance": {
+    "metrics": {
+      "fps": 5,
+      "frameMs": 2.08,
+      "maxFrameMs": 3,
+      "calls": 39,
+      "triangles": 71906,
+      "geometries": 10,
+      "textures": 8
+    },
+    "gpu": {
+      "supported": true,
+      "milliseconds": 116.459438
+    }
+  },
+  "errors": [],
+  "notes": "800x520 headless SwiftShader; performance is software rendering, not an iPad/Windows hardware benchmark. GPU timing is unavailable if optional extension is absent."
+}

@@ -16,3 +16,23 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
+      - name: Install Chromium for WebGL verification
+        run: npx playwright install --with-deps chromium
+      - name: Verify SONIC VISION shaders and mode parity
+        env:
+          TRACE_CAPTURE: '0'
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 32803 > /tmp/trace-preview.log 2>&1 &
+          trace_preview_pid=$!
+          trap 'kill "$trace_preview_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:32803/ > /dev/null; then break; fi
+            sleep 0.25
+          done
+          npm run test:sonic
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trace-sonic-webgl-results
+          path: artifacts/sonic/results.json
+          if-no-files-found: ignore

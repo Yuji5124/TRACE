@@ -8,7 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "test": "node --import tsx --test tests/*.test.ts",
-    "test:browser": "node tests/playtest.mjs"
+    "test:browser": "node tests/playtest.mjs",
+    "test:sonic": "node tests/sonic-browser.mjs"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "0.19.3",
