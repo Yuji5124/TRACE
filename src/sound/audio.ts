@@ -66,7 +66,11 @@ export class SoundAudio {
     this.muted = value;
     this.updateGain();
   }
-  play(kind: SonicKind) {
+  playHunter(distance: number, reaction = false) {
+    const level = Math.max(0, 1 - distance / 20) * 0.55;
+    if (level > 0.01) this.play(reaction ? "LANDING" : "FOOTSTEP", level);
+  }
+  play(kind: SonicKind, level = 1) {
     if (
       this.muted ||
       this.volume <= 0 ||
@@ -80,8 +84,13 @@ export class SoundAudio {
     try {
       if (this.voices.size >= 16) this.voices.values().next().value?.stop();
       let voice: { stop(): void };
-      voice = synthesizeVoice(this.context, kind, this.bus, this.noise, () =>
-        this.voices.delete(voice),
+      voice = synthesizeVoice(
+        this.context,
+        kind,
+        this.bus,
+        this.noise,
+        () => this.voices.delete(voice),
+        level,
       );
       this.voices.add(voice);
       this.played++;

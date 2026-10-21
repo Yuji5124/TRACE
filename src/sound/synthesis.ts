@@ -22,6 +22,7 @@ export function synthesizeVoice(
   destination: AudioNode,
   noise: AudioBuffer,
   onEnded: () => void = () => {},
+  level = 1,
 ) {
   const shot = kind === "GUNSHOT",
     landing = kind === "LANDING",
@@ -38,7 +39,7 @@ export function synthesizeVoice(
   filter.frequency.value = shot ? 6500 : run ? 1100 : 750;
   envelope.gain.setValueAtTime(0.0001, now);
   envelope.gain.linearRampToValueAtTime(
-    shot ? 0.65 : landing ? 0.4 : run ? 0.28 : 0.18,
+    (shot ? 0.65 : landing ? 0.4 : run ? 0.28 : 0.18) * level,
     now + 0.003,
   );
   envelope.gain.exponentialRampToValueAtTime(0.0001, now + duration);
@@ -49,7 +50,7 @@ export function synthesizeVoice(
   osc.frequency.setValueAtTime(shot ? 110 : landing ? 66 : run ? 88 : 78, now);
   osc.frequency.exponentialRampToValueAtTime(shot ? 32 : 45, now + duration);
   thump.gain.setValueAtTime(
-    shot ? 0.35 : landing ? 0.3 : run ? 0.18 : 0.12,
+    (shot ? 0.35 : landing ? 0.3 : run ? 0.18 : 0.12) * level,
     now,
   );
   thump.gain.exponentialRampToValueAtTime(0.0001, now + duration);

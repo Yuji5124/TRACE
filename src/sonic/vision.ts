@@ -65,6 +65,7 @@ export class SonicVisionRenderer {
   constructor(
     source: THREE.Group,
     readonly waves: SonicWaveSystem,
+    private readonly dynamic = false,
   ) {
     const c = waves.config;
     this.group.name = "sonic-surfaces";
@@ -124,6 +125,12 @@ export class SonicVisionRenderer {
     this.material.needsUpdate = true;
   }
   update() {
+    if (this.dynamic) {
+      for (let i = 0; i < this.sources.length; i++) {
+        this.sources[i].updateWorldMatrix(true, false);
+        this.proxies[i].matrix.copy(this.sources[i].matrixWorld);
+      }
+    }
     for (let i = 0; i < MAX_SONIC_WAVES; i++) {
       const w = this.waves.slots[i],
         v = this.waveVectors[i];

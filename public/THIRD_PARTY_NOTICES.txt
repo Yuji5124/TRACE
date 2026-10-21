@@ -52,3 +52,8 @@ Footstep, running, landing and gunshot sounds are original procedural Web Audio
 noise/oscillator synthesis in src/sound/synthesis.ts. No external recordings or
 sound libraries are used. The weapon/muzzle geometry is authored in this repo.
 No new runtime dependencies were introduced. Existing dependency notices apply.
+
+PHASE 3A ECHO HUNTER
+Hunter geometry, AI state machine, Rapier-sampled grid/A* and proximity sound
+adaptation are original source in this repo. No external AI, models or sound
+recordings were introduced. Existing dependency notices remain applicable.

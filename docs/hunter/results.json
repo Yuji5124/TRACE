@@ -1,0 +1,874 @@
+{
+  "browser": "153.0.8010.0",
+  "url": "http://127.0.0.1:32803",
+  "initial": {
+    "state": "IDLE",
+    "position": {
+      "x": 12.000000953674316,
+      "y": 0.820065975189209,
+      "z": 7.999912261962891
+    },
+    "sourceVisible": false,
+    "echoVisible": false,
+    "normalMaterials": [
+      "e3d502dd-d0b7-4693-9f5b-75a458949bf5",
+      "e3d502dd-d0b7-4693-9f5b-75a458949bf5",
+      "e3d502dd-d0b7-4693-9f5b-75a458949bf5",
+      "e3d502dd-d0b7-4693-9f5b-75a458949bf5",
+      "e3d502dd-d0b7-4693-9f5b-75a458949bf5",
+      "e3d502dd-d0b7-4693-9f5b-75a458949bf5"
+    ]
+  },
+  "heard": {
+    "state": "INVESTIGATE",
+    "heard": {
+      "kind": "TEST",
+      "origin": {
+        "x": 0.000012130505638197064,
+        "y": 1.4601003170013427,
+        "z": 30
+      },
+      "distance": 25.068224414465192,
+      "heardAt": 3.099999999999994,
+      "priority": 4,
+      "strength": 0.283765016729566
+    },
+    "position": {
+      "x": 11.72087574005127,
+      "y": 0.8194246888160706,
+      "z": 7.9997124671936035
+    },
+    "logs": [
+      {
+        "time": 0,
+        "event": "reset",
+        "state": "IDLE"
+      },
+      {
+        "time": 2,
+        "event": "sound-emitted",
+        "state": "IDLE",
+        "serial": 1,
+        "kind": "TEST",
+        "origin": {
+          "x": 0.000012130505638197064,
+          "y": 1.4601003170013427,
+          "z": 30
+        }
+      },
+      {
+        "time": 3.1,
+        "event": "heard",
+        "state": "IDLE",
+        "serial": 1,
+        "kind": "TEST",
+        "distance": 25.07,
+        "origin": {
+          "x": 0.000012130505638197064,
+          "y": 1.4601003170013427,
+          "z": 30
+        }
+      },
+      {
+        "time": 3.1,
+        "event": "transition",
+        "state": "IDLE",
+        "from": "IDLE",
+        "to": "INVESTIGATE"
+      }
+    ]
+  },
+  "chase": {
+    "state": "CHASE",
+    "ticks": 426,
+    "enemy": {
+      "x": 3.9998884201049805,
+      "y": 0.8100008964538574,
+      "z": 17.71518898010254
+    },
+    "player": {
+      "x": 0.000011064656064263545,
+      "y": 0.8101001381874084,
+      "z": 30
+    },
+    "logs": [
+      {
+        "time": 0,
+        "event": "reset",
+        "state": "IDLE"
+      },
+      {
+        "time": 2,
+        "event": "sound-emitted",
+        "state": "IDLE",
+        "serial": 1,
+        "kind": "TEST",
+        "origin": {
+          "x": 0.000012130505638197064,
+          "y": 1.4601003170013427,
+          "z": 30
+        }
+      },
+      {
+        "time": 3.1,
+        "event": "heard",
+        "state": "IDLE",
+        "serial": 1,
+        "kind": "TEST",
+        "distance": 25.07,
+        "origin": {
+          "x": 0.000012130505638197064,
+          "y": 1.4601003170013427,
+          "z": 30
+        }
+      },
+      {
+        "time": 3.1,
+        "event": "transition",
+        "state": "IDLE",
+        "from": "IDLE",
+        "to": "INVESTIGATE"
+      },
+      {
+        "time": 10.6,
+        "event": "transition",
+        "state": "INVESTIGATE",
+        "from": "INVESTIGATE",
+        "to": "CHASE"
+      }
+    ]
+  },
+  "escape": {
+    "state": "SEARCH",
+    "player": {
+      "x": 16.77310562133789,
+      "y": 0.810041069984436,
+      "z": 38.03233337402344
+    },
+    "lastSeen": {
+      "x": 0.4661829173564911,
+      "y": 0.8100851774215698,
+      "z": 30.222776412963867
+    },
+    "target": {
+      "x": 0.4661829173564911,
+      "y": 0.8100851774215698,
+      "z": 30.222776412963867
+    },
+    "runPulses": 13,
+    "logs": [
+      {
+        "time": 0,
+        "event": "reset",
+        "state": "IDLE"
+      },
+      {
+        "time": 2,
+        "event": "sound-emitted",
+        "state": "IDLE",
+        "serial": 1,
+        "kind": "TEST",
+        "origin": {
+          "x": 0.000012130505638197064,
+          "y": 1.4601003170013427,
+          "z": 30
+        }
+      },
+      {
+        "time": 3.1,
+        "event": "heard",
+        "state": "IDLE",
+        "serial": 1,
+        "kind": "TEST",
+        "distance": 25.07,
+        "origin": {
+          "x": 0.000012130505638197064,
+          "y": 1.4601003170013427,
+          "z": 30
+        }
+      },
+      {
+        "time": 3.1,
+        "event": "transition",
+        "state": "IDLE",
+        "from": "IDLE",
+        "to": "INVESTIGATE"
+      },
+      {
+        "time": 10.6,
+        "event": "transition",
+        "state": "INVESTIGATE",
+        "from": "INVESTIGATE",
+        "to": "CHASE"
+      },
+      {
+        "time": 10.65,
+        "event": "sound-emitted",
+        "state": "CHASE",
+        "serial": 2,
+        "kind": "RUN",
+        "origin": {
+          "x": 0.2797141969203949,
+          "y": 0.08013834476470943,
+          "z": 30.133665084838867
+        }
+      },
+      {
+        "time": 10.883,
+        "event": "sound-emitted",
+        "state": "CHASE",
+        "serial": 3,
+        "kind": "RUN",
+        "origin": {
+          "x": 1.5849003791809082,
+          "y": 0.08011724472045895,
+          "z": 30.757354736328125
+        }
+      },
+      {
+        "time": 11.117,
+        "event": "sound-emitted",
+        "state": "CHASE",
+        "serial": 4,
+        "kind": "RUN",
+        "origin": {
+          "x": 2.8901426792144775,
+          "y": 0.08016731262207027,
+          "z": 31.38112449645996
+        }
+      },
+      {
+        "time": 11.3,
+        "event": "sound-expired",
+        "state": "CHASE",
+        "serial": 2,
+        "kind": "RUN"
+      },
+      {
+        "time": 11.35,
+        "event": "sound-emitted",
+        "state": "CHASE",
+        "serial": 5,
+        "kind": "RUN",
+        "origin": {
+          "x": 4.195134162902832,
+          "y": 0.08231421232223507,
+          "z": 32.00470733642578
+        }
+      },
+      {
+        "time": 11.5,
+        "event": "sound-expired",
+        "state": "CHASE",
+        "serial": 3,
+        "kind": "RUN"
+      },
+      {
+        "time": 11.5,
+        "event": "transition",
+        "state": "CHASE",
+        "from": "CHASE",
+        "to": "SEARCH"
+      },
+      {
+        "time": 11.5,
+        "event": "lost-sight",
+        "state": "SEARCH"
+      },
+      {
+        "time": 11.583,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 6,
+        "kind": "RUN",
+        "origin": {
+          "x": 5.499698162078857,
+          "y": 0.09169502973556515,
+          "z": 32.62812042236328
+        }
+      },
+      {
+        "time": 11.7,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 4,
+        "kind": "RUN"
+      },
+      {
+        "time": 11.817,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 7,
+        "kind": "RUN",
+        "origin": {
+          "x": 6.804127216339111,
+          "y": 0.09976675033569332,
+          "z": 33.25202178955078
+        }
+      },
+      {
+        "time": 12,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 5,
+        "kind": "RUN"
+      },
+      {
+        "time": 12.05,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 8,
+        "kind": "RUN",
+        "origin": {
+          "x": 8.107730865478516,
+          "y": 0.11945416450500485,
+          "z": 33.87618637084961
+        }
+      },
+      {
+        "time": 12.2,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 6,
+        "kind": "RUN"
+      },
+      {
+        "time": 12.283,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 9,
+        "kind": "RUN",
+        "origin": {
+          "x": 9.4115571975708,
+          "y": 0.12602384805679318,
+          "z": 34.50117874145508
+        }
+      },
+      {
+        "time": 12.4,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 7,
+        "kind": "RUN"
+      },
+      {
+        "time": 12.517,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 10,
+        "kind": "RUN",
+        "origin": {
+          "x": 10.715821266174316,
+          "y": 0.12761970281600948,
+          "z": 35.12678146362305
+        }
+      },
+      {
+        "time": 12.7,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 8,
+        "kind": "RUN"
+      },
+      {
+        "time": 12.75,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 11,
+        "kind": "RUN",
+        "origin": {
+          "x": 12.020193099975586,
+          "y": 0.12617899894714352,
+          "z": 35.75238037109375
+        }
+      },
+      {
+        "time": 12.9,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 9,
+        "kind": "RUN"
+      },
+      {
+        "time": 12.983,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 12,
+        "kind": "RUN",
+        "origin": {
+          "x": 13.324684143066406,
+          "y": 0.12107624530792233,
+          "z": 36.37831115722656
+        }
+      },
+      {
+        "time": 13.1,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 10,
+        "kind": "RUN"
+      },
+      {
+        "time": 13.217,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 13,
+        "kind": "RUN",
+        "origin": {
+          "x": 14.629171371459961,
+          "y": 0.10770322799682613,
+          "z": 37.004295349121094
+        }
+      },
+      {
+        "time": 13.4,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 11,
+        "kind": "RUN"
+      },
+      {
+        "time": 13.45,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 14,
+        "kind": "RUN",
+        "origin": {
+          "x": 15.934135437011719,
+          "y": 0.09321453094482418,
+          "z": 37.62998962402344
+        }
+      },
+      {
+        "time": 13.6,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 12,
+        "kind": "RUN"
+      }
+    ]
+  },
+  "hiding": {
+    "acquired": "CHASE",
+    "state": "SEARCH",
+    "lastSeen": {
+      "x": 6,
+      "y": 0.8101000189781189,
+      "z": 2.0713612514100532e-7
+    },
+    "target": {
+      "x": 6,
+      "y": 0.8101000189781189,
+      "z": 2.0713612514100532e-7
+    },
+    "logs": [
+      {
+        "time": 0,
+        "event": "reset",
+        "state": "IDLE"
+      },
+      {
+        "time": 2,
+        "event": "sound-emitted",
+        "state": "IDLE",
+        "serial": 1,
+        "kind": "TEST",
+        "origin": {
+          "x": 0.000012130505638197064,
+          "y": 1.4601003170013427,
+          "z": 30
+        }
+      },
+      {
+        "time": 3.1,
+        "event": "heard",
+        "state": "IDLE",
+        "serial": 1,
+        "kind": "TEST",
+        "distance": 25.07,
+        "origin": {
+          "x": 0.000012130505638197064,
+          "y": 1.4601003170013427,
+          "z": 30
+        }
+      },
+      {
+        "time": 3.1,
+        "event": "transition",
+        "state": "IDLE",
+        "from": "IDLE",
+        "to": "INVESTIGATE"
+      },
+      {
+        "time": 10.6,
+        "event": "transition",
+        "state": "INVESTIGATE",
+        "from": "INVESTIGATE",
+        "to": "CHASE"
+      },
+      {
+        "time": 10.65,
+        "event": "sound-emitted",
+        "state": "CHASE",
+        "serial": 2,
+        "kind": "RUN",
+        "origin": {
+          "x": 0.2797141969203949,
+          "y": 0.08013834476470943,
+          "z": 30.133665084838867
+        }
+      },
+      {
+        "time": 10.883,
+        "event": "sound-emitted",
+        "state": "CHASE",
+        "serial": 3,
+        "kind": "RUN",
+        "origin": {
+          "x": 1.5849003791809082,
+          "y": 0.08011724472045895,
+          "z": 30.757354736328125
+        }
+      },
+      {
+        "time": 11.117,
+        "event": "sound-emitted",
+        "state": "CHASE",
+        "serial": 4,
+        "kind": "RUN",
+        "origin": {
+          "x": 2.8901426792144775,
+          "y": 0.08016731262207027,
+          "z": 31.38112449645996
+        }
+      },
+      {
+        "time": 11.3,
+        "event": "sound-expired",
+        "state": "CHASE",
+        "serial": 2,
+        "kind": "RUN"
+      },
+      {
+        "time": 11.35,
+        "event": "sound-emitted",
+        "state": "CHASE",
+        "serial": 5,
+        "kind": "RUN",
+        "origin": {
+          "x": 4.195134162902832,
+          "y": 0.08231421232223507,
+          "z": 32.00470733642578
+        }
+      },
+      {
+        "time": 11.5,
+        "event": "sound-expired",
+        "state": "CHASE",
+        "serial": 3,
+        "kind": "RUN"
+      },
+      {
+        "time": 11.5,
+        "event": "transition",
+        "state": "CHASE",
+        "from": "CHASE",
+        "to": "SEARCH"
+      },
+      {
+        "time": 11.5,
+        "event": "lost-sight",
+        "state": "SEARCH"
+      },
+      {
+        "time": 11.583,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 6,
+        "kind": "RUN",
+        "origin": {
+          "x": 5.499698162078857,
+          "y": 0.09169502973556515,
+          "z": 32.62812042236328
+        }
+      },
+      {
+        "time": 11.7,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 4,
+        "kind": "RUN"
+      },
+      {
+        "time": 11.817,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 7,
+        "kind": "RUN",
+        "origin": {
+          "x": 6.804127216339111,
+          "y": 0.09976675033569332,
+          "z": 33.25202178955078
+        }
+      },
+      {
+        "time": 12,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 5,
+        "kind": "RUN"
+      },
+      {
+        "time": 12.05,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 8,
+        "kind": "RUN",
+        "origin": {
+          "x": 8.107730865478516,
+          "y": 0.11945416450500485,
+          "z": 33.87618637084961
+        }
+      },
+      {
+        "time": 12.2,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 6,
+        "kind": "RUN"
+      },
+      {
+        "time": 12.283,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 9,
+        "kind": "RUN",
+        "origin": {
+          "x": 9.4115571975708,
+          "y": 0.12602384805679318,
+          "z": 34.50117874145508
+        }
+      },
+      {
+        "time": 12.4,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 7,
+        "kind": "RUN"
+      },
+      {
+        "time": 12.517,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 10,
+        "kind": "RUN",
+        "origin": {
+          "x": 10.715821266174316,
+          "y": 0.12761970281600948,
+          "z": 35.12678146362305
+        }
+      },
+      {
+        "time": 12.7,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 8,
+        "kind": "RUN"
+      },
+      {
+        "time": 12.75,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 11,
+        "kind": "RUN",
+        "origin": {
+          "x": 12.020193099975586,
+          "y": 0.12617899894714352,
+          "z": 35.75238037109375
+        }
+      },
+      {
+        "time": 12.9,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 9,
+        "kind": "RUN"
+      },
+      {
+        "time": 12.983,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 12,
+        "kind": "RUN",
+        "origin": {
+          "x": 13.324684143066406,
+          "y": 0.12107624530792233,
+          "z": 36.37831115722656
+        }
+      },
+      {
+        "time": 13.1,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 10,
+        "kind": "RUN"
+      },
+      {
+        "time": 13.217,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 13,
+        "kind": "RUN",
+        "origin": {
+          "x": 14.629171371459961,
+          "y": 0.10770322799682613,
+          "z": 37.004295349121094
+        }
+      },
+      {
+        "time": 13.4,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 11,
+        "kind": "RUN"
+      },
+      {
+        "time": 13.45,
+        "event": "sound-emitted",
+        "state": "SEARCH",
+        "serial": 14,
+        "kind": "RUN",
+        "origin": {
+          "x": 15.934135437011719,
+          "y": 0.09321453094482418,
+          "z": 37.62998962402344
+        }
+      },
+      {
+        "time": 13.6,
+        "event": "sound-expired",
+        "state": "SEARCH",
+        "serial": 12,
+        "kind": "RUN"
+      },
+      {
+        "time": 13.6,
+        "event": "reset",
+        "state": "IDLE"
+      },
+      {
+        "time": 13.7,
+        "event": "transition",
+        "state": "IDLE",
+        "from": "IDLE",
+        "to": "CHASE"
+      },
+      {
+        "time": 14.6,
+        "event": "transition",
+        "state": "CHASE",
+        "from": "CHASE",
+        "to": "SEARCH"
+      },
+      {
+        "time": 14.6,
+        "event": "lost-sight",
+        "state": "SEARCH"
+      }
+    ]
+  },
+  "samples": [
+    {
+      "age": 0.29,
+      "lit": 0,
+      "sharedGeometry": true,
+      "aligned": true
+    },
+    {
+      "age": 0.32,
+      "lit": 483,
+      "sharedGeometry": true,
+      "aligned": true
+    },
+    {
+      "age": 0.42,
+      "lit": 1029,
+      "sharedGeometry": true,
+      "aligned": true
+    },
+    {
+      "age": 2.7,
+      "lit": 0,
+      "sharedGeometry": true,
+      "aligned": true
+    }
+  ],
+  "modes": [
+    {
+      "mode": 1,
+      "sourceVisible": true,
+      "aligned": true,
+      "colliders": 361
+    },
+    {
+      "mode": 2,
+      "sourceVisible": false,
+      "aligned": true,
+      "colliders": 361
+    },
+    {
+      "mode": 3,
+      "sourceVisible": true,
+      "aligned": true,
+      "colliders": 361
+    }
+  ],
+  "captureReset": {
+    "captures": 1,
+    "state": "IDLE",
+    "player": {
+      "x": 0,
+      "y": 1.6833332777023315,
+      "z": 30
+    },
+    "grace": true,
+    "pending": 0,
+    "waves": 0,
+    "flash": true
+  },
+  "mutedDanger": {
+    "muted": true,
+    "text": "近くに、足音がある",
+    "statsVisible": false
+  },
+  "timing": {
+    "simulationSeconds": 10,
+    "totalMs": 64.70000000018626,
+    "brainTicks": 100,
+    "pathSearches": 6,
+    "brainLastMs": 0,
+    "brainMaxMs": 1.8000000002793968,
+    "pathLastMs": 0,
+    "gridBuildMs": 369.20000000018626
+  },
+  "software": {
+    "metrics": {
+      "fps": 3,
+      "frameMs": 3.88,
+      "maxFrameMs": 7.4,
+      "calls": 96,
+      "triangles": 122032,
+      "geometries": 13,
+      "textures": 8
+    },
+    "gpu": {
+      "supported": true,
+      "milliseconds": 271.449954
+    }
+  },
+  "errors": [],
+  "physicalDevices": {
+    "tested": false,
+    "note": "Linux Chromium / SwiftShader; Windows Chrome and iPhone/iPad Safari hardware, audible speakers and input feel not tested."
+  }
+}

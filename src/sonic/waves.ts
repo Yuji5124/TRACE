@@ -13,10 +13,22 @@ export interface SonicWave {
   kind: SonicKind;
   maxRadius: number;
 }
+export type SonicEvent = Readonly<{
+  kind: SonicKind;
+  origin: Readonly<SonicOrigin>;
+  bornAt: number;
+  serial: number;
+  maxRadius: number;
+}>;
 /** Pure simulation; pooled slots never refer to Three.js or collision objects. */
 export class SonicWaveSystem {
   readonly config: Readonly<SonicVisionConfig>;
   readonly slots: SonicWave[];
+  private readonly listeners = new Set<(event: SonicEvent) => void>();
+  subscribe(listener: (event: SonicEvent) => void) {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  }
   time = 0;
   emitted = 0;
   readonly emissions: Record<SonicKind, number> = {
@@ -87,6 +99,16 @@ export class SonicWaveSystem {
     slot.bornAt = this.time;
     slot.serial = ++this.emitted;
     this.emissions[kind]++;
+    if (this.listeners.size) {
+      const event = Object.freeze({
+        kind,
+        origin: Object.freeze({ ...slot.origin }),
+        bornAt: slot.bornAt,
+        serial: slot.serial,
+        maxRadius: slot.maxRadius,
+      });
+      for (const listener of this.listeners) listener(event);
+    }
     return slot;
   }
   update(dt: number) {

@@ -112,7 +112,7 @@ try {
   await page.evaluate(() => {
     const t = window.traceTest;
     t.freeze(true);
-    t.physics.reset();
+    t.resetRound();
     t.input.clear();
     t.input.setLook(0, -0.04);
     for (let i = 0; i < 120; i++) t.motionTick();

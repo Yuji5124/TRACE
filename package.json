@@ -11,7 +11,8 @@
     "test:browser": "node tests/playtest.mjs",
     "test:sonic": "node tests/sonic-browser.mjs",
     "test:sound": "node tests/sound-browser.mjs",
-    "test:pages": "node tests/pages-browser.mjs"
+    "test:pages": "node tests/pages-browser.mjs",
+    "test:hunter": "node tests/hunter-browser.mjs"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "0.19.3",

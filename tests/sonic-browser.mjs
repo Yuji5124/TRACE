@@ -115,7 +115,7 @@ try {
       await page.evaluate((mode) => {
         const t = window.traceTest;
         t.setMode(mode);
-        t.physics.reset();
+        t.resetRound();
         for (let i = 0; i < 120; i++) t.physics.move(0, 0, 1 / 60);
         for (let i = 0; i < 600; i++) t.physics.move(0, -0.06, 1 / 60);
         const p = t.physics.body.translation();

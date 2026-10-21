@@ -55,6 +55,7 @@ export async function createPhysics(
   controller.setMinSlopeSlideAngle(Math.PI * 0.3);
   world.timestep = 1 / 60;
   world.step();
+  const beforeStep = new Set<(dt: number) => void>();
   let vertical = 0;
   const move = (dx: number, dz: number, dt: number) => {
     vertical = Math.max(-30, vertical - 20 * dt);
@@ -72,6 +73,7 @@ export async function createPhysics(
       y: p.y + m.y,
       z: p.z + m.z,
     });
+    for (const tick of beforeStep) tick(dt);
     world.timestep = dt;
     world.step();
     if (controller.computedGrounded()) vertical = 0;
@@ -83,8 +85,22 @@ export async function createPhysics(
       { x: def.spawn[0], y: def.spawn[1], z: def.spawn[2] },
       true,
     );
+    body.setNextKinematicTranslation({
+      x: def.spawn[0],
+      y: def.spawn[1],
+      z: def.spawn[2],
+    });
     world.step();
   };
-  return { world, body, player, controller, colliderObjects, move, reset };
+  return {
+    world,
+    body,
+    player,
+    controller,
+    colliderObjects,
+    move,
+    reset,
+    beforeStep,
+  };
 }
 export type Physics = Awaited<ReturnType<typeof createPhysics>>;

@@ -18,7 +18,7 @@ jobs:
       - run: npm run build
       - name: Install Chromium for WebGL verification
         run: npx playwright install --with-deps chromium
-      - name: Verify SONIC VISION and SOUND ACTION
+      - name: Verify SONIC VISION, SOUND ACTION and ECHO HUNTER
         env:
           TRACE_CAPTURE: '0'
         run: |
@@ -31,6 +31,7 @@ jobs:
           done
           npm run test:sonic
           npm run test:sound
+          npm run test:hunter
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -38,4 +39,5 @@ jobs:
           path: |
             artifacts/sonic/results.json
             artifacts/sound/results.json
+            artifacts/hunter/results.json
           if-no-files-found: ignore

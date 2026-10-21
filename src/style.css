@@ -373,3 +373,35 @@ body.transparent .top {
     letter-spacing: 0.5px;
   }
 }
+#danger {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #c1ded7;
+  pointer-events: none;
+  text-align: center;
+}
+#danger.near {
+  color: #f0bf9b;
+  border-bottom: 1px solid #d4a17588;
+  padding: 7px 15px;
+}
+#capture-flash {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  color: #fff1da;
+  font-size: clamp(14px, 2vw, 24px);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 10;
+}
+#capture-flash.caught {
+  opacity: 1;
+  background: radial-gradient(ellipse, #291e1a77, #8a292abf);
+}

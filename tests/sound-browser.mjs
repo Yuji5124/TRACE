@@ -69,7 +69,7 @@ try {
   const steps = await page.evaluate(() => {
     const t = window.traceTest;
     const reset = () => {
-      t.physics.reset();
+      t.resetRound();
       t.actions.reset();
       t.waves.clear();
       t.input.clear();
@@ -263,7 +263,7 @@ try {
         t.camera.position.set(20, 1.66, -7);
         t.camera.lookAt(18, 2, -23);
       } else {
-        t.physics.reset();
+        t.resetRound();
         for (let i = 0; i < 120; i++) t.motionTick();
         t.input.keys.add("KeyW");
         if (kind === "RUN") t.input.keys.add("ShiftLeft");
@@ -294,7 +294,7 @@ try {
       await page.evaluate((mode) => {
         const t = window.traceTest;
         t.setMode(mode);
-        t.physics.reset();
+        t.resetRound();
         t.actions.reset();
         t.waves.clear();
         for (let i = 0; i < 120; i++) t.physics.move(0, 0, 1 / 60);
