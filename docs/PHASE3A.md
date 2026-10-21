@@ -159,3 +159,22 @@ Windowsの人間による試遊・主観的な恐怖や操作感の評価は未�
 
 画像はカメラ・時刻を固定して検証した実WebGL画面。F1/F3の例はQの重ね描き中。
 キャプチャ環境に日本語フォントがなく、一部文字は四角になる。実機の字体確認も未実施。
+
+## 公開環境の確認
+
+実装コミット `858bf9a23e8ba43dc5a8b9f5ecaf1b0f40ae519c` の
+[Pagesデプロイ](https://github.com/Yuji5124/TRACE/actions/runs/39630991686)が成功。
+公開URLでHTTP 200、JS / CSS / 分割チャンク / 内包WASM初期化、移動・射撃・全モードを再確認。
+さらに同じ公開URLで敵の調査・追跡・視線喪失・部分表面表示・消音通知・捕捉後再開の
+ブラウザ検証が成功、例外0件。
+
+[公開ページの全リクエストと操作結果](hunter/public-pages.json) /
+[公開上の敵AIループ・ログ・計測](hunter/public-hunter.json)。
+公開検証もLinux Chromium / SwiftShaderであり、Windows / Safari実機ではない。
+公開上の参考値は2 FPS、96 draw calls。ローカルの3 FPSとの差は実GPU性能差を意味しない。
+通信プロキシ用証明書のChromium回避設定を検証ホストに限定して使用（詳細は[PAGES.md](PAGES.md)）。
+既存のライブラリ非推奨警告は残るが、新規の致命的エラー・アセット404は検出されなかった。
+
+[実装コミットのCI](https://github.com/Yuji5124/TRACE/actions/runs/39630991784)も成功。
+24件の単体テスト、ビルド、SONIC / SOUND / HUNTERのブラウザ検証を通過。
+この確認後の追記コミットは検証JSONとこの報告だけを追加し、ゲームコードは変更しない。
