@@ -1,0 +1,48 @@
+TRACE Phase 1 — third-party notices
+Reviewed 2026-10-21. Runtime dependencies are pinned in package-lock.json.
+
+USED AT RUNTIME
+
+Three.js 0.186.1 — MIT
+https://github.com/mrdoob/three.js
+Includes the Sky addon. Unmodified dependency.
+Full notice: licenses/Three-MIT.txt
+
+three-mesh-bvh 0.9.15 — MIT
+https://github.com/gkjohnson/three-mesh-bvh
+Copyright (c) 2018 Garrett Johnson
+Used for a dedicated ground-query mesh independent of visual visibility.
+Unmodified dependency. Full notice: licenses/BVH-MIT.txt
+
+Rapier JS / @dimforge/rapier3d-compat 0.19.3 — Apache-2.0
+https://github.com/dimforge/rapier.js
+Copyright 2020 Dimforge EURL
+Used for capsule character controller and static collision world.
+Unmodified dependency. Full license: licenses/Rapier-Apache-2.0.txt
+
+RESEARCH REFERENCES — NO SOURCE CODE OR ASSETS COPIED
+
+IceCreamYou/THREE.Terrain — MIT
+https://github.com/IceCreamYou/THREE.Terrain/tree/gh-pages
+Reviewed package.json v3.1.1 (blob 5e88e4cc592c921bf6256dbd58b2735ae2cbb9ed).
+Peer dependency three >=0.160.0. Not bundled: TRACE needs a small deterministic
+height function for flat circulation paths, not a general terrain generator.
+Informational upstream notice: licenses/THREE-Terrain-MIT.txt
+
+photonlines/Procedural-City-Generator — MIT stated in README
+https://github.com/photonlines/Procedural-City-Generator
+Reviewed README (blob 5d1061ed573a0b79ccf61d3a2c91594957e6c12a) and
+js/procedural.city.generator.js (blob 609e13f6f25a0ff1429058af391bff08c72f33e3).
+README identifies Three.js r102. Block/road/park composition studied;
+TRACE's TypeScript implementation and all models/textures are newly authored.
+Old global API source and bundled noise code are not imported or copied.
+
+ASSETS
+All geometry and canvas textures are procedurally authored in this repository.
+No downloaded models, photos, fonts, audio, or third-party texture assets.
+No network fetches are required by the built app.
+
+DEVELOPMENT ONLY
+Vite (MIT), TypeScript (Apache-2.0), tsx (MIT), @types/three (MIT),
+@types/node (MIT), Playwright (Apache-2.0) are development tools, not app assets.
+Their license texts remain in their npm distributions and the dependency lockfile.

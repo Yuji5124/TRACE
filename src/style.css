@@ -1,0 +1,276 @@
+:root {
+  font-family: Inter, Arial, "Noto Sans JP", sans-serif;
+  color: #f3f2e6;
+  background: #152622;
+  font-synthesis: none;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  overflow: hidden;
+}
+canvas {
+  display: block;
+  width: 100vw;
+  height: 100dvh;
+  touch-action: none;
+}
+button,
+a {
+  color: inherit;
+}
+button {
+  font: inherit;
+  cursor: pointer;
+}
+#hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  padding: max(24px, env(safe-area-inset-top))
+    max(28px, env(safe-area-inset-right));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-shadow: 0 1px 8px #0008;
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.brand {
+  font-size: 25px;
+  letter-spacing: 8px;
+  font-weight: 500;
+}
+.brand small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 2.3px;
+  margin-top: 9px;
+  opacity: 0.75;
+}
+.location {
+  text-align: right;
+  font-size: 11px;
+  letter-spacing: 1.8px;
+  line-height: 1.8;
+}
+.location strong {
+  font-size: 15px;
+  display: block;
+  letter-spacing: 1px;
+}
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 15px;
+}
+.modes {
+  display: flex;
+  gap: 6px;
+  pointer-events: auto;
+}
+.modes button {
+  border: 1px solid #fff4;
+  background: #172a2866;
+  padding: 11px 13px;
+  border-radius: 3px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  backdrop-filter: blur(8px);
+  min-height: 44px;
+}
+.modes button[aria-pressed="true"] {
+  background: #ece8d8;
+  color: #223c32;
+  border-color: transparent;
+  text-shadow: none;
+}
+.hint {
+  font-size: 10px;
+  letter-spacing: 0.6px;
+  line-height: 1.8;
+  opacity: 0.85;
+}
+.crosshair {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: #f9f5df;
+  border-radius: 100%;
+  box-shadow: 0 0 0 3px #203c3225;
+  pointer-events: none;
+}
+#start {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #10251fe0;
+  border: 1px solid #ffffff30;
+  padding: 30px 38px;
+  text-align: center;
+  backdrop-filter: blur(16px);
+  border-radius: 5px;
+  max-width: 90vw;
+  min-width: 310px;
+}
+#start p {
+  font-size: 11px;
+  line-height: 2;
+  color: #c3d0c4;
+  margin: 15px 0;
+}
+#start h1 {
+  font-size: 25px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  margin: 5px 0 10px;
+}
+#start .eyebrow {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: #c5cba8;
+}
+#enter {
+  background: #e5dec7;
+  border: 0;
+  border-radius: 3px;
+  padding: 14px 28px;
+  color: #20392e;
+  min-width: 160px;
+}
+#stats {
+  position: fixed;
+  right: 25px;
+  top: 100px;
+  background: #10241fe8;
+  padding: 14px;
+  font: 11px/1.8 monospace;
+  white-space: pre;
+  display: none;
+  border: 1px solid #ffffff22;
+  pointer-events: none;
+}
+#credits {
+  position: fixed;
+  right: 25px;
+  bottom: 90px;
+  background: #10241ff5;
+  padding: 20px;
+  font-size: 12px;
+  line-height: 2;
+  max-width: 340px;
+  display: none;
+}
+#credits a {
+  display: block;
+}
+#credits button {
+  margin-top: 12px;
+  padding: 8px 15px;
+  background: transparent;
+  border: 1px solid #fff5;
+}
+.tools {
+  pointer-events: auto;
+  display: flex;
+  gap: 5px;
+  margin-bottom: 8px;
+  justify-content: flex-end;
+}
+.tools button {
+  background: #172a2866;
+  border: 1px solid #fff3;
+  border-radius: 3px;
+  min-height: 35px;
+  padding: 6px 10px;
+  font-size: 10px;
+}
+.badge {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #dce9cc;
+  margin-bottom: 8px;
+}
+#status {
+  font-size: 10px;
+}
+#error {
+  position: fixed;
+  inset: 15%;
+  padding: 35px;
+  background: #162a25;
+  z-index: 20;
+  line-height: 1.8;
+}
+.touch-hint {
+  display: none;
+}
+body.transparent .hint {
+  opacity: 1;
+}
+body.transparent #hud {
+  background: radial-gradient(ellipse at center, transparent 40%, #10272555);
+}
+@media (pointer: coarse) {
+  .touch-hint {
+    display: block;
+  }
+  .pc-hint {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  #hud {
+    padding: 18px 15px;
+  }
+  .brand {
+    font-size: 21px;
+  }
+  .location strong {
+    font-size: 12px;
+  }
+  .location {
+    font-size: 8px;
+  }
+  .modes button {
+    padding: 10px 8px;
+    font-size: 9px;
+  }
+  .hint {
+    font-size: 8px;
+  }
+  .bottom {
+    gap: 5px;
+  }
+  .tools button {
+    font-size: 8px;
+  }
+  .brand small {
+    font-size: 8px;
+  }
+  .badge {
+    font-size: 8px;
+  }
+}
+body:not(.transparent) .top,
+body:not(.transparent) .hint,
+body:not(.transparent) #status,
+body:not(.transparent) .badge {
+  color: #233d33;
+  text-shadow: 0 1px 6px #f6f5e399;
+}
+.modes button {
+  font-weight: 600;
+}
+body.transparent .top {
+  color: #edf4e1;
+}
