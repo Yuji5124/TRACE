@@ -7,6 +7,10 @@ export const HUNTER_CONFIG = Object.freeze({
   lostSightSeconds: 0.8,
   idleSight: 6,
   alertSight: 13,
+  idleFov: 90,
+  alertFov: 110,
+  turnSpeed: 2.4, // radians/second; no instant turn toward an unheard player
+  chaseTurnSpeed: 3.2,
   investigateSpeed: 2.5,
   chaseSpeed: 4.5,
   patrolSpeed: 1.4,

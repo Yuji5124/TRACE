@@ -8,6 +8,7 @@ import { random } from "../world/random";
 import { HUNTER_CONFIG as C, HEARING } from "./config";
 import { HunterNavigation } from "./navigation";
 import { HunterMotor } from "./motor";
+import { inViewCone, turnToward } from "./perception";
 export type HunterState =
   | "IDLE"
   | "INVESTIGATE"
@@ -48,6 +49,15 @@ export class EchoHunter {
   route: Point[] = [];
   pathIndex = 0;
   facing = 0;
+  visibility = "unchecked";
+  get sightRange() {
+    return this.state === "IDLE" || this.state === "RETURN"
+      ? C.idleSight : C.alertSight;
+  }
+  get fieldOfView() {
+    return this.state === "IDLE" || this.state === "RETURN"
+      ? C.idleFov : C.alertFov;
+  }
   speed = 0;
   private accumulator = 0;
   private stateSince = 0;
@@ -200,17 +210,25 @@ export class EchoHunter {
           : C.investigateSpeed *
             (0.9 + 0.2 * (this.lastHeard?.strength ?? 0.5));
     if (this.time < this.pauseUntil) this.speed = 0;
-    if (next && horizontal(p, next) > 0.01)
-      this.facing = Math.atan2(next.x - p.x, next.z - p.z);
+    // Hearing turns toward the remembered source during the initial pause;
+    // otherwise follow the route, never the unseen live player position.
+    const look = this.time < this.pauseUntil ? this.lastHeard?.origin : next;
+    if (look && horizontal(p, look) > 0.01) {
+      this.facing = turnToward(
+        this.facing, Math.atan2(look.x - p.x, look.z - p.z),
+        dt * (this.state === "CHASE" ? C.chaseTurnSpeed : C.turnSpeed),
+      );
+    } else if (this.state === "SEARCH") {
+      this.facing += dt * C.turnSpeed * 0.4;
+    }
     this.motor.prepare(next, this.speed, dt);
   }
   private decide(player: Point, dt: number) {
     this.sounds();
-    const range =
-      this.state === "IDLE" || this.state === "RETURN"
-        ? C.idleSight
-        : C.alertSight;
-    const visible = this.motor.canSee(player, range);
+    this.visibility = this.playerDistance > this.sightRange ? "out-of-range"
+      : !inViewCone(this.position, player, this.facing, this.fieldOfView) ? "outside-cone"
+      : !this.motor.canSee(player, this.sightRange) ? "occluded" : "visible";
+    const visible = this.visibility === "visible";
     if (visible) {
       this.lastSeen = { ...player };
       this.lastVisibleAt = this.time;
@@ -223,7 +241,11 @@ export class EchoHunter {
       this.transition("SEARCH", this.lastSeen);
       this.log("lost-sight");
     }
-    if (!this.immune && this.playerDistance < C.captureDistance && visible) {
+    // Physical contact can be felt from behind; it must still not cross a wall.
+    if (
+      !this.immune && this.playerDistance < C.captureDistance &&
+      this.motor.canSee(player, C.captureDistance)
+    ) {
       this.captures++;
       this.capturePending = true;
       this.log("capture", { count: this.captures });
@@ -302,6 +324,9 @@ export class EchoHunter {
   }
   reset() {
     this.capturePending = false;
+    this.facing = 0;
+    this.visibility = "unchecked";
+    this.speed = 0;
     this.pending.length = 0;
     this.lastHeard = null;
     this.lastSeen = null;
@@ -328,7 +353,7 @@ export class EchoHunter {
   debugText() {
     const h = this.lastHeard,
       t = this.target;
-    return `\nHUNTER ${this.state} · captures ${this.captures} · ${this.immune ? "grace" : "active"}\nheard ${h?.kind ?? "none"} · source distance ${h ? distance(this.position, h.origin).toFixed(1) : "-"}m\ntarget ${t ? `${t.x.toFixed(1)},${t.y.toFixed(1)},${t.z.toFixed(1)}` : "none"}\nplayer ${this.playerDistance.toFixed(1)}m · path ${this.routeStatus} ${this.pathIndex}/${this.route.length}\nAI ${C.brainHz}Hz ${this.brainMs.toFixed(2)}ms max ${this.maxBrainMs.toFixed(2)}ms · path ${this.navigation.lastMs.toFixed(2)}ms #${this.navigation.searches}\n${this.logs
+    return `\nHUNTER ${this.state} · captures ${this.captures} · ${this.immune ? "grace" : "active"}\nvision ${this.fieldOfView}deg / ${this.sightRange}m · facing ${(this.facing * 180 / Math.PI % 360).toFixed(0)}deg · ${this.visibility}\nheard ${h?.kind ?? "none"} · source distance ${h ? distance(this.position, h.origin).toFixed(1) : "-"}m\ntarget ${t ? `${t.x.toFixed(1)},${t.y.toFixed(1)},${t.z.toFixed(1)}` : "none"}\nplayer ${this.playerDistance.toFixed(1)}m · path ${this.routeStatus} ${this.pathIndex}/${this.route.length}\nAI ${C.brainHz}Hz ${this.brainMs.toFixed(2)}ms max ${this.maxBrainMs.toFixed(2)}ms · path ${this.navigation.lastMs.toFixed(2)}ms #${this.navigation.searches}\n${this.logs
       .slice(-5)
       .map((e) => `${e.time}s ${e.event} ${e.kind ?? ""} ${e.to ?? ""}`)
       .join("\n")}`;

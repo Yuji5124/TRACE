@@ -11,7 +11,12 @@ export class HunterView {
     color: "#364943",
     roughness: 0.78,
   });
-  private readonly head: THREE.Mesh;
+  readonly debugCone: THREE.Line;
+  private readonly coneGeometry = new THREE.BufferGeometry();
+  private readonly coneMaterial = new THREE.LineBasicMaterial({
+    color: "#ffb86b", depthTest: false, transparent: true, opacity: 0.65,
+  });
+  private readonly conePositions = new Float32Array(35 * 3);
   private readonly limbs: THREE.Mesh[] = [];
   private travel = 0;
   private lastX = 0;
@@ -36,7 +41,16 @@ export class HunterView {
       return m;
     };
     part(0, 1.05, 0, 0.55, 0.8, 0.3);
-    this.head = part(0, 1.72, 0.04, 0.32, 0.38, 0.3);
+    part(0, 1.72, 0.04, 0.32, 0.38, 0.3);
+    // Non-emissive projecting face: direction is legible only when the body is visible.
+    part(0, 1.71, 0.23, 0.22, 0.13, 0.16);
+    this.coneGeometry.setAttribute(
+      "position", new THREE.BufferAttribute(this.conePositions, 3),
+    );
+    this.debugCone = new THREE.Line(this.coneGeometry, this.coneMaterial);
+    this.debugCone.frustumCulled = false;
+    this.debugCone.renderOrder = 5;
+    // main attaches the debug cone separately, outside the acoustic source tree.
     this.limbs.push(
       part(-0.2, 0.35, 0, 0.16, 0.7, 0.18),
       part(0.2, 0.35, 0, 0.16, 0.7, 0.18),
@@ -60,18 +74,31 @@ export class HunterView {
       (m, i) =>
         (m.rotation.x = Math.sin(this.travel + (i % 2) * Math.PI) * 0.22),
     );
-    this.head.rotation.y =
-      this.hunter.time < this.hunter.reactionUntil ? 0.5 : 0;
+    this.debugCone.visible = mode === 3;
+    this.debugCone.position.set(p.x, p.y + 0.45, p.z);
+    this.debugCone.rotation.y = this.hunter.facing;
+    const half = this.hunter.fieldOfView * Math.PI / 360;
+    this.conePositions.fill(0);
+    for (let i = 0; i <= 32; i++) {
+      const a = -half + 2 * half * i / 32, index = (i + 1) * 3;
+      this.conePositions[index] = Math.sin(a) * this.hunter.sightRange;
+      this.conePositions[index + 2] = Math.cos(a) * this.hunter.sightRange;
+    }
+    this.coneGeometry.attributes.position.needsUpdate = true;
     this.group.updateMatrixWorld(true);
     this.vision?.update();
   }
   setMode(mode: number) {
     this.group.visible = mode !== 2;
+    this.debugCone.visible = mode === 3;
     this.vision.setMode(mode);
   }
   dispose() {
     this.vision.dispose();
     this.group.removeFromParent();
+    this.debugCone.removeFromParent();
+    this.coneGeometry.dispose();
+    this.coneMaterial.dispose();
     this.geometry.dispose();
     this.material.dispose();
   }

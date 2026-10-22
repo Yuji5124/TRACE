@@ -139,11 +139,13 @@ try {
     const t = window.traceTest;
     t.resetRound();
     t.hunter.motor.reset({ x: 6, y: 0.81, z: 5 });
+    t.hunter.facing = Math.PI;
     t.physics.body.setTranslation({ x: 6, y: 0.81, z: 0 }, true);
     t.physics.world.step();
     for (let i = 0; i < 12; i++) t.motionTick();
     const acquired = t.hunter.state;
     t.hunter.motor.reset({ x: -4, y: 0.81, z: 0 });
+    t.hunter.facing = Math.PI / 2;
     t.physics.body.setTranslation({ x: 4, y: 0.81, z: 0 }, true);
     t.physics.world.step();
     t.hunter.pauseUntil = t.hunter.time + 3;
@@ -159,6 +161,62 @@ try {
   });
   assert.equal(hiding.acquired, "CHASE");
   assert.equal(hiding.state, "SEARCH");
+  await page.evaluate(() => {
+    const t = window.traceTest;
+    t.resetRound();
+    t.input.setLook(0, 0);
+    t.hunter.motor.reset({ x: 6, y: 0.81, z: 5 });
+    const p = { x: 6, y: 0.81, z: 0 };
+    t.physics.body.setTranslation(p, true);
+    t.physics.body.setNextKinematicTranslation(p);
+    t.physics.world.step();
+    for (let i = 0; i < 20; i++) t.motionTick();
+  });
+  await page.keyboard.down("KeyD");
+  const sneak = await page.evaluate(() => {
+    const t = window.traceTest, start = t.physics.body.translation();
+    const before = t.waves.emissions.FOOTSTEP;
+    for (let i = 0; i < 75; i++) t.motionTick();
+    return { start, end: t.physics.body.translation(), state: t.hunter.state,
+      heard: t.hunter.lastHeard, lastSeen: t.hunter.lastSeen,
+      footsteps: t.waves.emissions.FOOTSTEP - before };
+  });
+  await page.keyboard.up("KeyD");
+  assert.ok(sneak.end.x - sneak.start.x > 2);
+  assert.ok(sneak.footsteps > 0);
+  assert.equal(sneak.state, "IDLE");
+  assert.equal(sneak.heard, null);
+  assert.equal(sneak.lastSeen, null);
+  // Phase 3B: same 5m position, rear silence / walking / running / bounded turn.
+  const rear = await page.evaluate(() => {
+    const t = window.traceTest;
+    t.resetRound();
+    t.hunter.motor.reset({ x: 6, y: 0.81, z: 5 });
+    t.physics.body.setTranslation({ x: 6, y: 0.81, z: 0 }, true);
+    t.physics.body.setNextKinematicTranslation({ x: 6, y: 0.81, z: 0 });
+    t.physics.world.step();
+    const snap = () => ({ state: t.hunter.state, visibility: t.hunter.visibility,
+      facing: t.hunter.facing, heard: t.hunter.lastHeard?.kind ?? null,
+      lastSeen: t.hunter.lastSeen });
+    for (let i = 0; i < 30; i++) t.motionTick();
+    const silent = snap();
+    t.actions.emit("FOOTSTEP", { x: 6, y: 0.81, z: 0 });
+    for (let i = 0; i < 24; i++) t.motionTick();
+    const walking = snap();
+    t.actions.emit("RUN", { x: 6, y: 0.81, z: 0 });
+    for (let i = 0; i < 18; i++) t.motionTick();
+    const reaction = snap();
+    for (let i = 0; i < 90; i++) t.motionTick();
+    return { silent, walking, reaction, turned: snap() };
+  });
+  assert.equal(rear.silent.state, "IDLE");
+  assert.equal(rear.silent.visibility, "outside-cone");
+  assert.equal(rear.walking.heard, null);
+  assert.equal(rear.reaction.state, "INVESTIGATE");
+  assert.equal(rear.reaction.heard, "RUN");
+  assert.equal(rear.reaction.lastSeen, null);
+  assert.ok(Math.abs(rear.reaction.facing) < 0.5);
+  assert.equal(rear.turned.state, "CHASE");
   // Test actual enemy geometry, not a shell: before arrival -> partial -> full -> fade.
   const samples = await page.evaluate(() => {
     const t = window.traceTest;
@@ -196,6 +254,7 @@ try {
         return {
           mode,
           sourceVisible: t.hunterView.group.visible,
+          debugConeVisible: t.hunterView.debugCone.visible,
           aligned: t.hunterView.vision.proxies.every((m, i) =>
             m.matrix.equals(t.hunterView.vision.sources[i].matrixWorld),
           ),
@@ -227,6 +286,7 @@ try {
     undefined,
     { timeout: 10000 },
   );
+  assert.deepEqual(modes.map((m) => m.debugConeVisible), [false, false, true]);
   const mutedDanger = await page.evaluate(() => {
     const t = window.traceTest;
     t.freeze(true);
@@ -321,6 +381,8 @@ try {
     chase,
     escape,
     hiding,
+    rear,
+    sneak,
     samples,
     modes,
     captureReset,

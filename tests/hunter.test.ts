@@ -138,15 +138,18 @@ test("LOS loss behind actual fountain collider enters SEARCH at last seen point"
   const f = await fixture();
   try {
     f.hunter.motor.reset({ x: 6, y: 0.81, z: 5 });
+    f.hunter.facing = Math.PI;
     f.putPlayer(6, 0.81, 0);
     f.tick(0.2);
     assert.equal(f.hunter.state, "CHASE");
     const seen = { ...f.hunter.lastSeen! };
     f.hunter.motor.reset({ x: -4, y: 0.81, z: 0 });
+    f.hunter.facing = Math.PI / 2;
     f.putPlayer(4, 0.81, 0);
     f.hunter.pauseUntil = f.hunter.time + 3;
     f.tick(1);
     assert.equal(f.hunter.state, "SEARCH");
+    assert.equal(f.hunter.visibility, "occluded");
     assert.deepEqual(f.hunter.lastSeen, seen);
     assert.notDeepEqual(f.hunter.target, { x: 4, y: 0.81, z: 0 });
   } finally {
@@ -281,4 +284,46 @@ test("continuous new sounds retarget without repeatedly clearing the route or fr
   } finally {
     f.close();
   }
+});
+
+test("silent player behind hunter stays unknown; rear RUN turns toward remembered sound before visual acquisition", async () => {
+  const f = await fixture();
+  try {
+    f.hunter.motor.reset({ x: 6, y: 0.81, z: 5 });
+    f.putPlayer(6, 0.81, 0);
+    f.tick(0.5);
+    assert.equal(f.hunter.state, "IDLE");
+    assert.equal(f.hunter.visibility, "outside-cone");
+    assert.equal(f.hunter.lastSeen, null);
+    assert.equal(f.hunter.facing, 0);
+    const source = { x: 6, y: 0.81, z: 0 };
+    f.waves.emit(source, { kind: "FOOTSTEP" });
+    f.tick(0.4);
+    assert.equal(Boolean(f.hunter.lastHeard), false);
+    f.waves.emit(source, { kind: "RUN" });
+    f.tick(0.3);
+    assert.equal(f.hunter.state, "INVESTIGATE");
+    assert.equal(f.hunter.lastHeard?.kind, "RUN");
+    assert.equal(f.hunter.lastSeen, null);
+    assert.ok(Math.abs(f.hunter.facing) < 0.5, "no instantaneous rear acquisition");
+    f.tick(1.5);
+    assert.equal(f.hunter.state, "CHASE");
+    assert.ok(f.hunter.lastSeen);
+  } finally { f.close(); }
+});
+
+test("rear contact is tactile capture, not visual acquisition; reset restores heading", async () => {
+  const f = await fixture();
+  try {
+    f.hunter.motor.reset({ x: 6, y: 0.81, z: 5 });
+    f.putPlayer(6, 0.81, 4.1);
+    f.hunter.immunityUntil = 0;
+    f.tick(0.2);
+    assert.equal(f.hunter.capturePending, true);
+    assert.equal(f.hunter.lastSeen, null);
+    f.hunter.facing = 2;
+    f.hunter.reset();
+    assert.equal(f.hunter.facing, 0);
+    assert.equal(f.hunter.visibility, "unchecked");
+  } finally { f.close(); }
 });
